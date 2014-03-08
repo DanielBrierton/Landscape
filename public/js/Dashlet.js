@@ -8,8 +8,7 @@ define(function () {
 
 	Dashlet.prototype = {
 		getHTML: function () {
-			this.$el = $('<div></div>');
-			return this.$el;
+			return '<div></div>';
 		},
 
 		getCSS: function () {
@@ -21,7 +20,8 @@ define(function () {
 		onAttach: function () {},
 
 		attachTo: function (parent) {
-			$(parent).append(this.getHTML());
+			this.$el = $(this.getHTML());
+			$(parent).append(this.$el);
 			this.onAttach();
 		}
 	};

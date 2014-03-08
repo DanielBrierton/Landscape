@@ -21,8 +21,7 @@ define([
 		},
 
 		getHTML: function () {
-			this.$el = $(Handlebars.compile(template)(this.options));
-			return this.$el;
+			return Handlebars.compile(template)(this.options);
 		},
 
 		getCSS: function () {
