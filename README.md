@@ -10,6 +10,7 @@ Everything important. Landscape is nowhere near ready for use.
 
 ## How to run
 
+    npm install
     node landscape.js
 
 or with a custom port
