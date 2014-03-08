@@ -73,12 +73,9 @@ fs.readdir(boardsDir, function (err, files) {
 	});
 });
 
-app.all('/test', function (req, res) {
-	res.render('test', {
-		content: 'Yes!'
-	});
-});
-
 app.use(express.static(__dirname + '/public'));
 
 app.listen(port);
+
+console.log('Listening on port ' + port);
+console.log('http://localhost:' + port + '/');
