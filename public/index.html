@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Landscape</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.gridster.min.css" />
+		<script type="text/javascript" src="js/require.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+		<script type="text/javascript" src="js/jquery.gridster.min.js"></script>
+		<script type="text/javascript" src="js/handlebars-v1.3.0.js"></script>
+		<script type="text/javascript">
+			require.config({
+				paths: {
+					text: 'js/text'
+				}
+			});
+
+			window.onload = function () {
+				var loadedBoards = {};
+				var dashboard = document.getElementById('dashboard');
+				window.onhashchange = function () {
+					loadBoard(window.location.hash.substr(1));
+				}
+
+				function loadBoard(boardName) {
+					var board = 'boards/' + boardName + '.html';
+					require([
+						'text!./' + board
+					], function (template) {
+						dashboard.innerHTML = template;
+						$('div[data-dashlet]').each(function (i, dashletEl) {
+							var dashlet = dashletEl.getAttribute('data-dashlet');
+							var dashletParams = {};
+							for (var key in dashletEl.dataset) {
+								if (key !== 'dashlet') {
+									dashletParams[key] = dashletEl.dataset[key];
+								}
+							}
+							require([
+								'text!./dashlets/' + dashlet + '/template.html',
+								'text!./dashlets/' + dashlet + '/styles.css'
+							], function (dashletTemplate, dashletStyles) {
+								dashletEl.innerHTML = Handlebars.compile(dashletTemplate)(dashletParams);
+								if (!loadedBoards[boardName]) {
+									var styleTag = document.createElement('style');
+									styleTag.setAttribute('type', 'text/css');
+									styleTag.innerText = dashletStyles;
+									document.getElementsByTagName('head')[0].appendChild(styleTag);
+									loadedBoards[boardName] = true;
+								}
+							});
+						});
+						$(dashboard).find('ul').gridster({
+					        widget_margins: [10, 10],
+					        widget_base_dimensions: [240, 240],
+					        max_cols: 4,
+					        min_cols: 4
+						});
+					});
+				}
+
+				loadBoard(window.location.hash.substr(1));
+			}
+		</script>
+		<style type="text/css">
+			li {
+				position: relative;
+				list-style-type: none;
+			}
+
+			li > div, li > div > div {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="dashboard" class="gridster"></div>
+	</body>
+</html>
