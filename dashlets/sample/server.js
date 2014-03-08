@@ -1,4 +1,4 @@
-module.exports = function (dashlet, params) {
+module.exports = function (dashlet) {
 	dashlet.rest('/', function (req, res) {
 		res.end('Sample Widget REST');
 	});

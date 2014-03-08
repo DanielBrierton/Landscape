@@ -2,10 +2,7 @@ var fs = require('fs'),
 	express = require('express'),
 	app = express(),
     htmlparser = require('htmlparser2'),
-    less = require('less'),
 	port = parseInt(process.env.PORT, 10) || 5000;
-
-app.set('view engine', 'hbs');
 
 var dashlet = function (dashletName) {
 	return {
@@ -27,39 +24,17 @@ var boardsDir = './public/boards/';
 function createDashboard(boardTemplate) {
 	var parser = new htmlparser.Parser({
 		onopentag: function (name, attrs) {
-			if (attrs['data-dashlet'] && !loadedDashlets[attrs['data-dashlet']]) {
-				var dashletParams = {};
-				for (var key in attrs) {
-					if (key.indexOf('data-') === 0 && key !== 'data-dashlet') {
-						dashletParams[key.substr(5)] = attrs[key];
-					}
-				}
-				var dashletPath = './dashlets/' + attrs['data-dashlet'];
+			var dashletName = attrs['data-dashlet'];
+			if (dashletName && !loadedDashlets[dashletName]) {
+				var dashletPath = './dashlets/' + dashletName;
+				var dashletUrl = '/dashlets/' + dashletName;
 				fs.exists(dashletPath + '/server.js', function (exists) {
 					if (exists) {
-						require(dashletPath + '/server.js')(dashlet(attrs['data-dashlet']), dashletParams);
+						require(dashletPath + '/server.js')(dashlet(dashletName));
 					}
 				});
-				fs.exists(dashletPath + '/template.html', function (exists) {
-					if (exists) {
-						app.get(dashletPath.substr(1) + '/template.html', function (req, res) {
-							fs.createReadStream(dashletPath + '/template.html').pipe(res);
-						});
-					}
-				});
-				fs.exists(dashletPath + '/styles.less', function (exists) {
-					if (exists) {
-						fs.readFile(dashletPath + '/styles.less', function (err, data) {
-							if (err) throw err;
-							less.render(data.toString(), function (e, css) {
-								app.get(dashletPath.substr(1) + '/styles.css', function (req, res) {
-									res.end(css);
-								});
-							});
-						});
-					}
-				});
-				loadedDashlets[attrs['data-dashlet']] = true;
+				app.use(dashletUrl, express.static(__dirname + dashletUrl + '/public'));
+				loadedDashlets[dashletName] = true;
 			}
 		}
 	});

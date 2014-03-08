@@ -4,9 +4,6 @@
   "author": "Daniel Brierton <daniel@brierton.me>",
   "dependencies": {
     "express": "~3.5.0",
-    "htmlparser2": "~3.5.1",
-    "hbs": "~2.5.0",
-    "handlebars": "~2.0.0-alpha.2",
-    "less": "~1.7.0"
+    "htmlparser2": "~3.5.1"
   }
 }
