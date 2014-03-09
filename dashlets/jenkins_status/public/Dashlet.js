@@ -9,6 +9,7 @@ define([
 			this.host = options.host;
 			this.job = options.job;
 			this.proto = options.protocol || 'http';
+			this.interval = options.interval || 30000;
 		},
 
 		getHTML: function () {
@@ -20,6 +21,11 @@ define([
 		},
 
 		onAttach: function () {
+			this.checkStatus();
+			setInterval(this.checkStatus.bind(this), this.interval);
+		},
+
+		checkStatus: function () {
 			this.$el.find('.job_name').text(this.job);
 			$.ajax({
 				url: '/dashlets/jenkins_status/' + this.host + '/' + this.job + '/' + this.proto,
