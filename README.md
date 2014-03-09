@@ -3,10 +3,11 @@
 An extensible dashboard written in Node.js, inspired by [Dashing](http://dashing.io).
 
 ## What works
-Very basic rudimentary support for non-dynamic dashlets.
+Simple Dashlets including interaction and updating via Ajax.
 
-## What doesn't work
-Everything important. Landscape is nowhere near ready for use.
+## Included Dashlets
+* Sample (not intended for actual use)
+* Jenkins Job Status
 
 ## How to run
 
