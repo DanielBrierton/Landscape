@@ -6,7 +6,7 @@ define([
 
 	return Dashlet.extend({
 
-		colors: ['red', 'blue', 'teal', 'green'],
+		colors: ['red', 'blue', 'teal', 'green', 'purple'],
 
 		init: function (options) {
 			this.options = options;

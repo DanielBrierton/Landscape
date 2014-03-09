@@ -1,8 +1,6 @@
 define(function () {
 
-	var Dashlet = function (container, options) {
-		this.container = container;
-		this.$container = $(container);
+	var Dashlet = function (options) {
 		this.init(options);
 	};
 
@@ -19,7 +17,7 @@ define(function () {
 
 		onAttach: function () {},
 
-		attachTo: function (parent) {
+		_attachTo: function (parent) {
 			this.$el = $(this.getHTML());
 			$(parent).append(this.$el);
 			this.onAttach();

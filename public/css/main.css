@@ -1,3 +1,21 @@
 body {
 	background: black;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.gridster > ul > li {
+	position: relative;
+	list-style-type: none;
+}
+
+.gridster > ul > li > div {
+	overflow: hidden;
+}
+
+.gridster > ul > li > div, li > div > div {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 }
