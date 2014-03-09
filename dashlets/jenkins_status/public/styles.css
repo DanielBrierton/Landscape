@@ -1,0 +1,41 @@
+.jenkins_status {
+	color: #fff;
+	background: #5c8abf;
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.jenkins_status_SUCCESS {
+	background: green;
+}
+
+.jenkins_status_FAILURE {
+	background: red;
+}
+
+.job_info {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.job_name {
+	font-weight: bold;
+	text-align: center;
+	padding: 64px 5px 0 5px;
+}
+
+.jenkins_status_loading .job_name {
+	background: url('dashlets/jenkins_status/img/fading-loader.svg') top center no-repeat;
+	background-size: 64px;
+}
+
+.jenkins_status_SUCCESS .job_name {
+	background: url('dashlets/jenkins_status/img/tick.svg') top center no-repeat;
+	background-size: 64px;
+}
+
+.jenkins_status_FAILURE .job_name {
+	background: url('dashlets/jenkins_status/img/x.svg') top center no-repeat;
+	background-size: 64px;
+}
