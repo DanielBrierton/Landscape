@@ -1,30 +1,32 @@
 var http = require('http'),
-	https = require('https');
+    https = require('https');
 
 module.exports = function (dashlet) {
 
-	dashlet.rest('/:host/:job/:proto?', function (req, res) {
-		var job = req.params.job;
-		var host = req.params.host;
-		var proto = req.params.proto || 'http';
-		var httpRequest = (proto === 'https' ? https : http).get({
-			host: host,
-			port: proto === 'http' ? 80 : 443,
-			path: '/job/' + job + '/lastBuild/api/json'
-		}, function (response) {
-			var responseText = '';
-			response.on('data', function (chunk) {
-				responseText += chunk.toString();
-			});
-			response.on('end', function () {
-				var responseJson = JSON.parse(responseText);
+    var getJobInfo = function (req, res) {
+        var proto = req.params.proto || 'http';
+        var host = req.params.host;
+        var path = req.params.path || '';
+        path = decodeURIComponent(path);
+        var job = req.params.job;
+        var httpRequest = (proto === 'https' ? https : http).get(proto + '://' + host + path + '/job/' + job + '/lastBuild/api/json', function (response) {
+            var responseText = '';
+            response.on('data', function (chunk) {
+                responseText += chunk.toString();
+            });
+            response.on('end', function () {
+                var responseJson = JSON.parse(responseText);
 
-				res.end(JSON.stringify({
-					name: job,
-					result: responseJson.result
-				}));
-			});
-		});
-		httpRequest.end();
-	});
+                res.end(JSON.stringify({
+                    name: job,
+                    result: responseJson.result
+                }));
+            });
+        });
+        httpRequest.end();
+    }
+
+    dashlet.rest('/:proto/:host/:path/:job', getJobInfo);
+
+    dashlet.rest('/:proto/:host/:job', getJobInfo);
 };

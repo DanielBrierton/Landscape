@@ -1925,7 +1925,7 @@
 
         this.$resized_widget.addClass('resizing');
 
-		if (this.options.resize.start) {
+        if (this.options.resize.start) {
             this.options.resize.start.call(this, event, ui, this.$resized_widget);
         }
 
@@ -2428,14 +2428,14 @@
     */
     fn.is_empty = function(col, row) {
         if (typeof this.gridmap[col] !== 'undefined') {
-			if(typeof this.gridmap[col][row] !== 'undefined' &&
-				 this.gridmap[col][row] === false
-			) {
-				return true;
-			}
-			return false;
-		}
-		return true;
+            if(typeof this.gridmap[col][row] !== 'undefined' &&
+                 this.gridmap[col][row] === false
+            ) {
+                return true;
+            }
+            return false;
+        }
+        return true;
     };
 
 
